@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Empathic Computing{% endblock %}</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  {% block extra_head %}{% endblock %}
+  
+  <style>
+    /* Common styles for all pages */
+    .navbar {
+      margin-bottom: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border: none;
+    }
+    .navbar-brand, .nav-link {
+      color: white !important;
+    }
+    .nav-link.active {
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+    }
+    .card {
+      margin-bottom: 20px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border: none;
+      overflow: hidden;
+    }
+    .btn {
+      border-radius: 30px;
+      padding: 10px 20px;
+      font-weight: 600;
+      border: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    .footer {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    h1, h3 {
+      font-weight: 700;
+    }
+    .alert {
+      border-radius: 10px;
+      border: none;
+    }
+    
+    {% block extra_css %}{% endblock %}
+  </style>
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <div class="container main-container">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg {% block navbar_class %}{% endblock %}">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Empathic Computing</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link {% if request.endpoint == 'index' %}active{% endif %}" href="{{ url_for('index') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.endpoint == 'facial_emotion' %}active{% endif %}" href="{{ url_for('facial_emotion') }}">Facial Emotions</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if request.endpoint == 'sentiment_analysis' %}active{% endif %}" href="{{ url_for('sentiment_analysis') }}">Text Emotions</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    {% block content %}{% endblock %}
+    
+    <footer class="mt-5 pt-3 text-center footer border-top border-light">
+      <p>© {{ current_year }} Empathic Computing Tools. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  {% block scripts %}{% endblock %}
+</body>
+</html>

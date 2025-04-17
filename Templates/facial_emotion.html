@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Facial Emotion Recognition | Empathic Computing{% endblock %}
+
+{% block body_class %}bg-gradient-emotion{% endblock %}
+{% block navbar_class %}navbar-emotion{% endblock %}
+
+{% block extra_head %}
+<!-- 
+  =====================================================================
+  INTEGRATION POINT 1: Add your emotion recognition library here
+  Examples:
+  - face-api.js: <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  - TensorFlow.js: <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  - Custom library: <script src="{{ url_for('static', filename='js/your-emotion-recognition-library.js') }}"></script>
+  =====================================================================
+-->
+{% endblock %}
+
+{% block extra_css %}
+body {
+  background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+  color: white;
+  padding-top: 20px;
+  min-height: 100vh;
+}
+.main-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+.card-header {
+  background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+  color: #333;
+  border-radius: 15px 15px 0 0 !important;
+  border: none;
+  font-weight: 700;
+}
+#video-container {
+  position: relative;
+  min-height: 400px;
+  width: 100%;
+  background-color: #343a40;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+#video {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.loading-spinner {
+  display: none;
+  margin: 20px auto;
+}
+.face-info {
+  margin-top: 15px;
+}
+.navbar-emotion {
+  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+}
+.btn-primary {
+  background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+}
+.btn-secondary {
+  background: linear-gradient(to right, #f093fb 0%, #f5576c 100%);
+}
+.btn-outline-secondary {
+  color: white;
+  border: 2px solid white;
+}
+.btn-outline-primary {
+  color: white;
+  border: 2px solid #4facfe;
+}
+.card-body {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+}
+.emotion-indicator {
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-align: center;
+}
+.happy { background: linear-gradient(135deg, #fad961 0%, #f76b1c 100%); }
+.sad { background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%); }
+.angry { background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); }
+.surprised { background: linear-gradient(135deg, #5efce8 0%, #736efe 100%); }
+.neutral { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Facial Emotion Recognition</h1>
+
+<!-- Facial Emotion Card -->
+<div class="card">
+  <div class="card-header">
+    <h3 class="mb-0">Camera Feed & Emotion Analysis</h3>
+  </div>
+  <div class="card-body">
+    <div id="video-container">
+      <video id="video" autoplay muted></video>
+      <canvas id="canvas"></canvas>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
+      <button id="start-camera" class="btn btn-primary btn-lg">Start Camera</button>
+      <button id="stop-camera" class="btn btn-secondary btn-lg" disabled>Stop Camera</button>
+    </div>
+    <div id="face-info" class="face-info mt-3">
+      <div class="alert alert-info">
+        Start the camera to begin emotion recognition.
+      </div>
+    </div>
+    <div class="spinner-border text-primary loading-spinner" id="face-loading" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- Information Card -->
+<div class="card mt-4">
+  <div class="card-header">
+    <h3 class="mb-0">About Empathic Computing</h3>
+  </div>
+  <div class="card-body">
+    <p>This facial emotion recognition tool is designed for empathic computing applications:</p>
+    <ul>
+      <li><strong>Emotion Detection:</strong> Identifies emotions like happiness, sadness, anger, surprise, and more</li>
+      <li><strong>Emotion Intensity:</strong> Measures the intensity of each detected emotion</li>
+      <li><strong>Real-time Analysis:</strong> Processes emotions as they change in real-time</li>
+    </ul>
+    <p>Empathic computing systems use this emotional data to create more responsive and emotionally intelligent applications.</p>
+    <p class="alert alert-warning">
+      <strong>Integration Note:</strong> You need to implement your own emotion recognition model. See the code comments for integration points.
+    </p>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <a href="{{ url_for('index') }}" class="btn btn-outline-secondary me-2">Back to Home</a>
+  <a href="{{ url_for('sentiment_analysis') }}" class="btn btn-outline-primary">Try Text Emotion Analysis</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/facial-emotion.js') }}"></script>
+{% endblock %}
