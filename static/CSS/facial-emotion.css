@@ -1,0 +1,65 @@
+body {
+    background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%);
+    color: white;
+    padding-top: 20px;
+    min-height: 100vh;
+  }
+  
+  .main-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    color: #333;
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+    font-weight: 700;
+  }
+  
+  #video-container {
+    position: relative;
+    min-height: 400px;
+    width: 100%;
+    background-color: #343a40;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  #video {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  #canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  
+  .loading-spinner {
+    display: none;
+    margin: 20px auto;
+  }
+  
+  .face-info {
+    margin-top: 15px;
+  }
+  
+  /* Emotion indicator styles */
+  .emotion-indicator {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .happy { background: linear-gradient(135deg, #fad961 0%, #f76b1c 100%); }
+  .sad { background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%); }
+  .angry { background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); }
+  .surprised { background: linear-gradient(135deg, #5efce8 0%, #736efe 100%); }
+  .neutral { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }

@@ -1,7 +1,19 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from flask_wtf.csrf import CSRFProtect
 import datetime
+import torch
 import os
+
+MODEL_PATH = "D:\Empathic Computing Project\Roberta_Model"
+
+tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
+model = AutoModelForSequenceClassification.from_pretrained(MODEL_PATH)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model.to(device)
+
+
+
 
 # Create Flask app
 app = Flask(__name__)
@@ -24,8 +36,7 @@ def sentiment_analysis():
 @app.route('/analyze-emotions', methods=['POST'])
 def analyze_emotions():
     """
-    Process text for emotion analysis.
-    This is where you would integrate your actual emotion analysis model.
+    Process text for emotion analysis using RoBERTa model.
     """
     if request.method == 'POST':
         text = request.form.get('text', '')
@@ -34,24 +45,18 @@ def analyze_emotions():
             return jsonify({'error': 'No text provided'})
         
         try:
-            # This is where you would call your emotion analysis model
-            # For now, we'll return a placeholder result
+            # Use the RoBERTa model for sentiment analysis
+            inputs = tokenizer(text, return_tensors="pt", truncation=True, max_length=512).to(device)
             
-            # In a real implementation, you would:
-            # 1. Preprocess the text
-            # 2. Pass it to your emotion model
-            # 3. Get the emotion scores
-            # 4. Format the results
+            with torch.no_grad():
+                outputs = model(**inputs)
+                scores = torch.nn.functional.softmax(outputs.logits, dim=1).squeeze().cpu().numpy()
+
+            # IMPORTANT: These must match the order of outputs from your model!
+            labels = ['negative', 'neutral', 'positive']  # Replace with your actual labels
             
-            # Placeholder results
-            emotions = {
-                'joy': 0.65,
-                'sadness': 0.10,
-                'anger': 0.05,
-                'fear': 0.03,
-                'surprise': 0.12,
-                'neutral': 0.05
-            }
+            # Create emotion dictionary
+            emotions = {label: float(score) for label, score in zip(labels, scores)}
             
             # Generate HTML for the results
             html = generate_emotion_results_html(emotions)
@@ -63,55 +68,39 @@ def analyze_emotions():
     
     return redirect(url_for('sentiment_analysis'))
 
+
 def generate_emotion_results_html(emotions):
     """Generate HTML for emotion analysis results."""
-    # Find the dominant emotion
-    dominant_emotion = max(emotions.items(), key=lambda x: x[1])[0]
+    html = '<div class="emotion-results p-3 border rounded">'
     
-    html = f"""
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Emotion Analysis Results</h5>
-        <div class="emotion-indicator {dominant_emotion.lower()}">
-          <strong>Dominant Emotion:</strong> {dominant_emotion.capitalize()}
-        </div>
-        
-        <div class="mt-3">
-    """
+    # Sort emotions by score (highest first)
+    sorted_emotions = sorted(emotions.items(), key=lambda x: x[1], reverse=True)
     
-    # Add emotion bars
-    for emotion, score in emotions.items():
-        percentage = round(score * 100, 2)
+    for emotion, score in sorted_emotions:
+        percentage = score * 100
         color_class = get_emotion_color_class(emotion)
         
-        html += f"""
-          <div class="mb-2">{emotion.capitalize()}: {percentage}%</div>
-          <div class="progress mb-3">
-            <div class="progress-bar {color_class}" role="progressbar" 
-              style="width: {percentage}%;" aria-valuenow="{percentage}" 
-              aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-        """
+        html += f'<div class="mb-3">'
+        html += f'<div class="mb-2">{emotion.capitalize()}: {percentage:.1f}%</div>'
+        html += f'<div class="progress">'
+        html += f'<div class="progress-bar {color_class}" role="progressbar" '
+        html += f'style="width: {percentage}%" '
+        html += f'aria-valuenow="{percentage}" aria-valuemin="0" aria-valuemax="100"></div>'
+        html += '</div></div>'
     
-    html += """
-        </div>
-      </div>
-    </div>
-    """
-    
+    html += '</div>'
     return html
+
 
 def get_emotion_color_class(emotion):
     """Get Bootstrap color class for emotion."""
     color_map = {
-        'joy': 'bg-success',
-        'sadness': 'bg-info',
-        'anger': 'bg-danger',
-        'fear': 'bg-warning',
-        'surprise': 'bg-primary',
-        'neutral': 'bg-secondary'
+        'positive': 'bg-success',  # Green for positive
+        'negative': 'bg-danger',   # Red for negative
+        'neutral': 'bg-secondary'  # Grey for neutral
     }
     return color_map.get(emotion.lower(), 'bg-primary')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
