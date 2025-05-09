@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Empathic Computing Tools{% endblock %}
+
+{% block body_class %}bg-gradient-primary{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+{% endblock %}
+
+{% block content %}
+<header class="text-center mb-5">
+  <h1 class="display-4">Empathic Computing Tools</h1>
+  <p class="lead">Detect and analyze human emotions through facial expressions and text</p>
+</header>
+
+<div class="row g-4">
+  <!-- Facial Emotion Recognition Card -->
+  <div class="col-md-6">
+    <div class="card emotion-card">
+      <img src="{{ url_for('static', filename='images/facial-emotion.jpg') }}" class="card-img-top" alt="Facial Emotion Recognition">
+      <div class="card-body text-center">
+        <div class="feature-icon">😊</div>
+        <h2 class="card-title">Facial Emotion Recognition</h2>
+        <p class="card-text">Detect and analyze emotions from facial expressions in real-time using your camera.</p>
+        <ul class="list-group list-group-flush mb-4">
+          <li class="list-group-item">Real-time emotion detection</li>
+          <li class="list-group-item">Multiple emotion categories</li>
+          <li class="list-group-item">Emotion intensity analysis</li>
+        </ul>
+        <a href="{{ url_for('facial_emotion') }}" class="btn btn-primary btn-lg">Try Emotion Recognition</a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Sentiment Analysis Card -->
+  <div class="col-md-6">
+    <div class="card sentiment-card">
+      <img src="{{ url_for('static', filename='images/text-emotion.jpg') }}" class="card-img-top" alt="Sentiment Analysis">
+      <div class="card-body text-center">
+        <div class="feature-icon">📝</div>
+        <h2 class="card-title">Text Emotion Analysis</h2>
+        <p class="card-text">Analyze text to determine emotional tone and sentiment with detailed breakdowns.</p>
+        <ul class="list-group list-group-flush mb-4">
+          <li class="list-group-item">Emotional tone detection</li>
+          <li class="list-group-item">Sentiment intensity scoring</li>
+          <li class="list-group-item">Multiple emotion categories</li>
+        </ul>
+        <a href="{{ url_for('sentiment_analysis') }}" class="btn btn-primary btn-lg">Try Text Analysis</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

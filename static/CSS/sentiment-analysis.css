@@ -1,0 +1,77 @@
+body {
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    color: white;
+    padding-top: 20px;
+    min-height: 100vh;
+  }
+  
+  .main-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px 15px 0 0 !important;
+    border: none;
+    font-weight: 700;
+  }
+  
+  #sentiment-result {
+    min-height: 100px;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .loading-spinner {
+    display: none;
+    margin: 20px auto;
+  }
+  
+  .navbar-sentiment {
+    background: linear-gradient(to right, #667eea 0%, #764ba2 100%);
+  }
+  
+  .example-text {
+    cursor: pointer;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .example-text:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* Emotion indicator styles */
+  .emotion-indicator {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-align: center;
+  }
+  
+  .joy { background: linear-gradient(135deg, #fad961 0%, #f76b1c 100%); }
+  .sadness { background: linear-gradient(135deg, #5ee7df 0%, #b490ca 100%); }
+  .anger { background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); }
+  .fear { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+  .surprise { background: linear-gradient(135deg, #5efce8 0%, #736efe 100%); }
+  .neutral { background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%); }
+  .progress {
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  

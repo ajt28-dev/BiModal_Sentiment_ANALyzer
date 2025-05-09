@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Facial Emotion Recognition | Empathic Computing{% endblock %}
+
+{% block body_class %}bg-gradient-emotion{% endblock %}
+{% block navbar_class %}navbar-emotion{% endblock %}
+
+{% block extra_head %}
+<!-- 
+  =====================================================================
+  INTEGRATION POINT 1: Add your emotion recognition library here
+  Examples:
+  - face-api.js: <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  - TensorFlow.js: <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  - Custom library: <script src="{{ url_for('static', filename='js/your-emotion-recognition-library.js') }}"></script>
+  =====================================================================
+-->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/facial-emotion.css') }}">
+{% endblock %}
+
+{% block extra_css %}
+/* Any additional page-specific styles can go here if needed */
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Facial Emotion Recognition</h1>
+
+<!-- Facial Emotion Card -->
+<div class="card">
+  <div class="card-header">
+    <h3 class="mb-0">Camera Feed & Emotion Analysis</h3>
+  </div>
+  <div class="card-body">
+    <div id="video-container">
+      <video id="video" autoplay muted></video>
+      <canvas id="canvas"></canvas>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-3">
+      <button id="start-camera" class="btn btn-primary btn-lg">Start Camera</button>
+      <button id="stop-camera" class="btn btn-secondary btn-lg" disabled>Stop Camera</button>
+    </div>
+    <div id="face-info" class="face-info mt-3">
+      <div class="alert alert-info">
+        Start the camera to begin emotion recognition.
+      </div>
+    </div>
+    <div class="spinner-border text-primary loading-spinner" id="face-loading" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<!-- Information Card -->
+<div class="card mt-4">
+  <div class="card-header">
+    <h3 class="mb-0">About Empathic Computing</h3>
+  </div>
+  <div class="card-body">
+    <p>This facial emotion recognition tool is designed for empathic computing applications:</p>
+    <ul>
+      <li><strong>Emotion Detection:</strong> Identifies emotions like happiness, sadness, anger, surprise, and more</li>
+      <li><strong>Emotion Intensity:</strong> Measures the intensity of each detected emotion</li>
+      <li><strong>Real-time Analysis:</strong> Processes emotions as they change in real-time</li>
+    </ul>
+    <p>Empathic computing systems use this emotional data to create more responsive and emotionally intelligent applications.</p>
+    <p class="alert alert-warning">
+      <strong>Integration Note:</strong> You need to implement your own emotion recognition model. See the code comments for integration points.
+    </p>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <a href="{{ url_for('index') }}" class="btn btn-outline-secondary me-2">Back to Home</a>
+  <a href="{{ url_for('sentiment_analysis') }}" class="btn btn-outline-primary">Try Text Emotion Analysis</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/facial-emotion.js') }}"></script>
+{% endblock %}

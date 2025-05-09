@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Text Emotion Analysis | Empathic Computing{% endblock %}
+
+{% block body_class %}bg-gradient-sentiment{% endblock %}
+{% block navbar_class %}navbar-sentiment{% endblock %}
+
+{% block extra_head %}
+<!-- 
+  =====================================================================
+  INTEGRATION POINT 1: Add your text emotion analysis library here
+  Examples:
+  - TensorFlow.js: <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  - Natural: <script src="https://unpkg.com/natural/dist/natural.min.js"></script>
+  - Custom library: <script src="{{ url_for('static', filename='js/your-emotion-analysis-library.js') }}"></script>
+  =====================================================================
+-->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sentiment-analysis.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Text Emotion Analysis</h1>
+
+<!-- Sentiment Analysis Card -->
+<div class="card">
+  <div class="card-header">
+    <h3 class="mb-0">Text Analysis</h3>
+  </div>
+  <div class="card-body">
+    <form id="emotion-form" method="POST" action="{{ url_for('analyze_emotions') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="mb-3">
+        <label for="sentiment-text" class="form-label">Enter text for emotion analysis:</label>
+        <textarea class="form-control" id="sentiment-text" name="text" rows="6" placeholder="Type or paste text here to analyze its emotional content..."></textarea>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        <button id="analyze-button" type="submit" class="btn btn-primary btn-lg">Analyze Emotions</button>
+        <button id="clear-button" type="button" class="btn btn-secondary btn-lg">Clear Text</button>
+      </div>
+    </form>
+    <div class="spinner-border text-primary loading-spinner" id="sentiment-loading" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <div class="mt-4">
+      <h4>Results:</h4>
+      <div id="sentiment-result">
+        {% if results %}
+          {{ results|safe }}
+        {% else %}
+          <div class="alert alert-info">
+            Enter text and click "Analyze Emotions" to see results.
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Example Texts Card -->
+<div class="card mt-4">
+  <div class="card-header">
+    <h3 class="mb-0">Example Texts</h3>
+  </div>
+  <div class="card-body">
+    <p>Click on any example to use it:</p>
+    <div class="example-text" id="joy-example">
+      <strong>Joy Example:</strong> I'm having a wonderful day! Everything is going great and I feel amazing. The weather is perfect and I just got a promotion at work. I couldn't be happier!
+    </div>
+    <div class="example-text" id="sadness-example">
+      <strong>Sadness Example:</strong> This is the worst experience I've ever had. I'm very disappointed and frustrated with the service. Nothing worked as expected and I wasted so much time trying to fix it.
+    </div>
+    <div class="example-text" id="neutral-example">
+      <strong>Neutral Example:</strong> The weather today is partly cloudy with a temperature of 72 degrees. The forecast indicates a 30% chance of rain in the afternoon with winds from the northeast at 5 mph.
+    </div>
+    <div class="example-text" id="mixed-example">
+      <strong>Mixed Emotions Example:</strong> While I enjoyed the movie's stunning visuals and great acting, the plot had several major flaws and the ending was quite disappointing. Overall, it was worth watching but I wouldn't see it again.
+    </div>
+  </div>
+</div>
+
+<!-- Information Card -->
+<div class="card mt-4">
+  <div class="card-header">
+    <h3 class="mb-0">About Empathic Computing</h3>
+  </div>
+  <div class="card-body">
+    <p>This text emotion analysis tool is designed for empathic computing applications:</p>
+    <ul>
+      <li><strong>Emotion Detection:</strong> Identifies emotions like joy, sadness, anger, fear, and more</li>
+      <li><strong>Emotion Intensity:</strong> Measures the intensity of each detected emotion</li>
+      <li><strong>Contextual Understanding:</strong> Analyzes emotional content in context</li>
+    </ul>
+    <p>Empathic computing systems use this emotional data to create more responsive and emotionally intelligent applications.</p>
+    <div class="alert alert-warning">
+      <strong>Integration Note:</strong> You need to implement your own text emotion analysis model. See the code comments for integration points.
+    </div>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <a href="{{ url_for('index') }}" class="btn btn-outline-secondary me-2">Back to Home</a>
+  <a href="{{ url_for('facial_emotion') }}" class="btn btn-outline-primary">Try Facial Emotion Recognition</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/sentiment-analysis.js') }}"></script>
+{% endblock %}
